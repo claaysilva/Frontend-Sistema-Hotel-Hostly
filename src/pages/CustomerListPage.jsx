@@ -15,13 +15,16 @@ const CustomerListPage = () => {
   const fetchCustomers = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3001/api/customers", {
-        headers: {
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/customers`,
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
+      );
 
       // ADICIONE ESTA LINHA PARA "ESPIAR" OS DADOS
       console.log("DADOS RECEBIDOS PELA API:", response.data);
@@ -123,7 +126,9 @@ const CustomerListPage = () => {
                   onClick={async () => {
                     try {
                       await axios.delete(
-                        `http://localhost:3001/api/customers/${deleteTarget.id}`
+                        `${import.meta.env.VITE_API_URL}/api/customers/${
+                          deleteTarget.id
+                        }`
                       );
                       setCustomers((currentCustomers) =>
                         currentCustomers.filter((c) => c.id !== deleteTarget.id)

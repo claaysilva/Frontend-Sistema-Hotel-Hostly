@@ -14,13 +14,16 @@ const UserListPage = () => {
   const fetchUsers = async () => {
     try {
       // Adicionamos 'headers' para desabilitar o cache
-      const response = await axios.get("http://localhost:3001/api/users", {
-        headers: {
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/users`,
+        {
+          headers: {
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
+      );
       console.log("DADOS RECEBIDOS DE /api/users:", response.data);
 
       setUsers(response.data);
@@ -113,7 +116,9 @@ const UserListPage = () => {
                   onClick={async () => {
                     try {
                       await axios.delete(
-                        `http://localhost:3001/api/users/${deleteTarget.id}`
+                        `${import.meta.env.VITE_API_URL}/api/users/${
+                          deleteTarget.id
+                        }`
                       );
                       setUsers((currentUsers) =>
                         currentUsers.filter((u) => u.id !== deleteTarget.id)

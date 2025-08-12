@@ -17,13 +17,13 @@ const AvailableRoomsPage = () => {
       try {
         // Busca quartos disponíveis
         const roomsRes = await axios.get(
-          "http://localhost:3001/api/rooms?available=true"
+          `${import.meta.env.VITE_API_URL}/api/rooms?available=true`
         );
         setRooms(roomsRes.data);
         // Busca customer vinculado ao usuário logado
         if (user && user.id) {
           const customersRes = await axios.get(
-            "http://localhost:3001/api/customers"
+            `${import.meta.env.VITE_API_URL}/api/customers`
           );
           const customer = customersRes.data.find((c) => c.user_id === user.id);
           if (customer) setCustomerId(customer.id);
@@ -52,10 +52,13 @@ const AvailableRoomsPage = () => {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/api/bookings/check-in", {
-        room_id: roomId,
-        customer_id: customerId,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/bookings/check-in`,
+        {
+          room_id: roomId,
+          customer_id: customerId,
+        }
+      );
       setRooms((currentRooms) => currentRooms.filter((r) => r.id !== roomId));
       setSuccessMessage("Reserva realizada com sucesso!");
       setShowSuccess(true);

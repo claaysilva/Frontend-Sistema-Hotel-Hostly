@@ -24,7 +24,7 @@ const UserFormPage = () => {
       if (isEditing) {
         try {
           const response = await axios.get(
-            `http://localhost:3001/api/users/${id}`
+            `${import.meta.env.VITE_API_URL}/api/users/${id}`
           );
           setUser({ ...response.data, password: "" }); // Limpa a senha por segurança
         } catch (err) {
@@ -44,7 +44,7 @@ const UserFormPage = () => {
   const handleResetLogic = async () => {
     setResetStatus("aguardando");
     try {
-      await axios.put(`http://localhost:3001/api/users/${id}`, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/users/${id}`, {
         name: user.name.toUpperCase(),
         email: user.email.toLowerCase(),
         role: user.role,
@@ -82,9 +82,12 @@ const UserFormPage = () => {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:3001/api/users/${id}`, userData);
+        await axios.put(
+          `${import.meta.env.VITE_API_URL}/api/users/${id}`,
+          userData
+        );
       } else {
-        await axios.post("http://localhost:3001/api/users", userData);
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/users`, userData);
       }
       window.location.href = "/users"; // Força o recarregamento
     } catch (err) {
